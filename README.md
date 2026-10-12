@@ -19,9 +19,17 @@ Iconify 公开免费、无需密钥，聚合 150+ 图标集 / 20 万+ 开源图�
 - `show_png=true` 时额外产出本地 128×128 PNG 供人工查看（默认 false，不产出 PNG）。
 - PNG 会按 `fill_color`/`color` 填充实色，修复 `currentColor` 导致的空白图。
 
-## 依赖
+## 引用包（跨包依赖）
 
-- 跨包调用 `file_converter:convert_file`（ImageMagick）把 SVG 栅格化为本地 PNG，仅在 `show_png=true` 时需要。
+本包仅依赖 **一个** 其他包：
+
+| 引用包 | 用途 | 触发条件 |
+| --- | --- | --- |
+| `file_converter`（`file_converter:convert_file`） | 用 ImageMagick 把本地 SVG 栅格化为 128×128 PNG | 仅当 `show_png=true` 时调用 |
+
+- 源码位置：`const CONVERTER_TOOL = "file_converter:convert_file";`
+- **未安装 `file_converter` 不影响基本使用**：默认只产出 SVG，不会触发该跨包调用；只有显式传 `show_png=true` 时才会用到。
+- 除此之外无其他跨包依赖。网络请求使用内置 `OkHttp` 直连 `https://api.iconify.design`，本地文件读写使用内置 `Tools.Files`。
 
 ## 安装
 
